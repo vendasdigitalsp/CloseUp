@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101828">
+  <meta name="description" content="Aulas práticas, quiz e acompanhamento do seu progresso em vendas.">
+  <title>Academia de Vendas</title>
+  <style>
+    :root{font-family:Arial,sans-serif;color:#182230;background:#f7f8fc;--blue:#3867f4;--navy:#101828;--muted:#667085;--line:#eaecf0}*{box-sizing:border-box}body{margin:0}.sidebar{position:fixed;inset:0 auto 0 0;width:235px;padding:24px 16px;background:var(--navy);color:white}.brand{font-weight:bold;font-size:18px;margin:8px 8px 36px}.nav{display:block;width:100%;margin:5px 0;padding:13px;border:0;border-radius:10px;background:transparent;color:#d0d5dd;text-align:left;font-size:15px;cursor:pointer}.nav.active,.nav:hover{background:#26334b;color:white}.main{max-width:1180px;margin-left:235px;padding:28px 34px 60px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:26px}.top h1{margin:0;font-size:25px}.top p,.muted{color:var(--muted)}.avatar{border-radius:50%;background:#dbe5ff;padding:13px;font-weight:bold}.hero{padding:28px;border-radius:20px;background:linear-gradient(120deg,#2755df,#6485ff);color:white}.hero h2{margin:0 0 8px}.hero p{line-height:1.5;margin:0}.heading{margin:28px 0 14px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}.card,.panel{padding:20px;border:1px solid var(--line);border-radius:16px;background:white}.icon{font-size:28px}.card p,.lesson p{color:var(--muted);line-height:1.5}.btn{display:block;width:100%;padding:12px;border:0;border-radius:9px;background:var(--blue);color:white;font-weight:bold;cursor:pointer}.btn.light{background:#edf2ff;color:var(--blue)}.progress{height:10px;border-radius:20px;background:#eaecf0;overflow:hidden}.fill{height:100%;background:#12a76f}.progress-label{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted)}.lesson{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}.lesson:last-child{border:0}.lesson h3{margin:0 0 5px}.lesson p{margin:0}.small{padding:10px 13px;border:0;border-radius:8px;background:#edf2ff;color:var(--blue);font-weight:bold;cursor:pointer;white-space:nowrap}.media{margin:18px 0;background:#111827;border-radius:12px;overflow:hidden}.media video{width:100%;max-height:430px;display:block}.media-note{padding:12px;color:#d0d5dd;font-size:13px}audio{width:100%;margin:8px 0 18px}.question{padding:16px;margin:14px 0;border:1px solid var(--line);border-radius:12px}.question h3{font-size:16px}.option{display:block;padding:7px;color:#475467}.result{margin-top:14px;padding:14px;border-radius:10px;background:#ecfdf3;color:#027a48;line-height:1.5;font-weight:bold}
+    @media(max-width:700px){.sidebar{inset:auto 0 0;z-index:2;width:100%;display:flex;justify-content:space-around;padding:6px}.brand{display:none}.nav{width:auto;margin:0;padding:9px 7px;font-size:11px;text-align:center}.main{margin:0;padding:20px 15px 90px}.top h1{font-size:22px}}
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">🚀 Academia de Vendas</div>
+    <button class="nav active" data-page="inicio">🏠 Início</button>
+    <button class="nav" data-page="cursos">📚 Cursos</button>
+    <button class="nav" data-page="quiz">🧠 Quiz</button>
+    <button class="nav" data-page="progresso">📈 Progresso</button>
+  </aside>
+  <main class="main">
+    <header class="top"><div><h1 id="title">Início</h1><p>Aprenda, pratique e venda melhor.</p></div><div class="avatar">V</div></header>
+    <div id="content"></div>
+  </main>
+<script>
+  const lessons=[
+    {id:'prospeccao',module:'Módulo 1',title:'Prospecção de Clientes',description:'Aprenda a encontrar e abordar clientes em potencial.',icon:'🎯',video:'assets/media/prospeccao.mp4',audio:'assets/media/prospeccao.mp3'},
+    {id:'negociacao',module:'Módulo 2',title:'Negociação',description:'Apresente valor, contorne objeções e negocie com confiança.',icon:'🤝',video:'assets/media/negociacao.mp4',audio:'assets/media/negociacao.mp3'},
+    {id:'fechamento',module:'Módulo 3',title:'Fechamento de Vendas',description:'Conduza a conversa para uma decisão clara e positiva.',icon:'🏆',video:'assets/media/fechamento.mp4',audio:'assets/media/fechamento.mp3'}
+  ];
+  const questions=[
+    {text:'O que deve acontecer antes de apresentar uma oferta?',options:['Dar desconto imediatamente','Descobrir as necessidades do cliente','Encerrar a conversa'],answer:1},
+    {text:'Qual é uma boa prática ao lidar com uma objeção?',options:['Ouvir e entender a preocupação','Interromper o cliente','Ignorar a objeção'],answer:0},
+    {text:'Uma boa prospecção começa com:',options:['Uma abordagem relevante para o cliente','Uma mensagem igual para todos','Uma oferta sem contexto'],answer:0},
+    {text:'Ao fechar uma venda, o vendedor deve:',options:['Pressionar sem ouvir','Confirmar se a solução atende ao cliente','Prometer qualquer resultado'],answer:1},
+    {text:'O objetivo principal da negociação é:',options:['Vencer a qualquer custo','Encontrar uma solução de valor para as partes','Falar mais que o cliente'],answer:1}
+  ];
+  function readState(){try{return JSON.parse(localStorage.getItem('academiaVendas'))||{}}catch{return {}}}
+  let state=readState();function save(){try{localStorage.setItem('academiaVendas',JSON.stringify(state))}catch{}}
+  const doneCount=()=> (state.completed||[]).length, percent=()=>Math.round(doneCount()/lessons.length*100);
+  function go(page){history.pushState({page},'',`#${page}`);render(page)}
+  function render(page='inicio'){
+    const root=document.getElementById('content'),title=document.getElementById('title');
+    document.querySelectorAll('.nav').forEach(b=>b.classList.toggle('active',b.dataset.page===page||(page.startsWith('aula-')&&b.dataset.page==='cursos')));
+    if(page.startsWith('aula-')){const l=lessons.find(x=>x.id===page.slice(5));if(l){title.textContent=l.title;lessonPage(root,l);return}}
+    if(page==='cursos'){title.textContent='Cursos';courses(root)}else if(page==='quiz'){title.textContent='Quiz de vendas';quiz(root)}else if(page==='progresso'){title.textContent='Meu progresso';progress(root)}else{title.textContent='Início';home(root)}
+  }
+  function home(root){root.innerHTML=`<section class="hero"><h2>Seu próximo nível começa aqui! 🚀</h2><p>Treine habilidades práticas de vendas no seu ritmo. Assista às aulas, faça o quiz e acompanhe seu progresso.</p></section><h2 class="heading">Seu progresso</h2><section class="panel"><div class="progress"><div class="fill" style="width:${percent()}%"></div></div><div class="progress-label"><span>${doneCount()} de ${lessons.length} aulas concluídas</span><strong>${percent()}%</strong></div></section><h2 class="heading">Continue aprendendo</h2><div class="grid">${lessons.map(l=>`<article class="card"><div class="icon">${l.icon}</div><h3>${l.title}</h3><p>${l.description}</p><button class="btn" data-lesson="${l.id}">Abrir aula</button></article>`).join('')}<article class="card"><div class="icon">🧠</div><h3>Quiz de vendas</h3><p>Teste o que aprendeu e confira sua pontuação.</p><button class="btn light" data-page="quiz">Fazer quiz</button></article></div>`}
+  function courses(root){root.innerHTML=`<section class="panel"><h2>Trilha de aprendizagem</h2><p class="muted">Seu progresso fica salvo neste navegador.</p>${lessons.map(l=>`<div class="lesson"><div><h3>${l.icon} ${l.module}: ${l.title} ${(state.completed||[]).includes(l.id)?'✅':''}</h3><p>${l.description}</p></div><button class="small" data-lesson="${l.id}">Abrir aula</button></div>`).join('')}</section><h2 class="heading">Pratique o conteúdo</h2><section class="card"><h3>🧠 Quiz de vendas</h3><p>Responda cinco perguntas e veja sua pontuação.</p><button class="btn" data-page="quiz">Começar quiz</button></section>`}
+  function lessonPage(root,l){const done=(state.completed||[]).includes(l.id);root.innerHTML=`<section class="panel"><button class="small" data-page="cursos">← Voltar aos cursos</button><h2>${l.icon} ${l.module}: ${l.title}</h2><p class="muted">${l.description}</p><div class="media"><video controls playsinline preload="metadata"><source src="${l.video}" type="video/mp4">Seu aparelho não conseguiu reproduzir este vídeo.</video><div class="media-note">Para reproduzir, adicione o arquivo <strong>${l.video}</strong> ao repositório.</div></div><h3>🎧 Versão em áudio</h3><audio controls preload="metadata"><source src="${l.audio}" type="audio/mpeg">Seu aparelho não conseguiu reproduzir este áudio.</audio><button id="mark" class="btn ${done?'light':''}">${done?'Aula concluída ✓':'Marcar aula como concluída'}</button></section>`;document.getElementById('mark').onclick=()=>{state.completed=state.completed||[];if(!state.completed.includes(l.id))state.completed.push(l.id);save();render('aula-'+l.id)}}
+  function quiz(root){root.innerHTML=`<section class="panel"><h2>Quiz de vendas</h2><p class="muted">Cinco perguntas; cada acerto vale 20 pontos.</p><form id="quiz-form">${questions.map((q,i)=>`<div class="question"><h3>${i+1}. ${q.text}</h3>${q.options.map((o,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}"> ${o}</label>`).join('')}</div>`).join('')}<button class="btn">Ver minha pontuação</button></form><div id="result"></div>${state.score!==undefined?`<p class="muted">Última pontuação: <strong>${state.score}/100</strong></p>`:''}</section>`;document.getElementById('quiz-form').onsubmit=e=>{e.preventDefault();let correct=0;questions.forEach((q,i)=>{const a=document.querySelector(`input[name="q${i}"]:checked`);if(a&&Number(a.value)===q.answer)correct++});state.score=correct*20;state.quizCompleted=true;save();const message=state.score>=80?'Excelente! Você está pronto para aplicar esse conhecimento.':state.score>=60?'Muito bem! Revise as aulas para reforçar o conteúdo.':'Continue estudando e tente novamente para melhorar sua pontuação.';document.getElementById('result').innerHTML=`<div class="result">Você acertou ${correct} de ${questions.length} — ${state.score}/100 pontos.<br>${message}</div>`}}
+  function progress(root){root.innerHTML=`<section class="panel"><h2>Sua jornada</h2><p class="muted">O progresso é armazenado neste navegador.</p><div class="progress"><div class="fill" style="width:${percent()}%"></div></div><div class="progress-label"><span>Aulas concluídas</span><strong>${percent()}%</strong></div><div class="lesson"><div><h3>📚 Aulas</h3><p>${doneCount()} de ${lessons.length} concluídas</p></div><strong>${doneCount()}/${lessons.length}</strong></div><div class="lesson"><div><h3>🧠 Quiz</h3><p>${state.quizCompleted?'Quiz realizado':'Ainda não realizado'}</p></div><strong>${state.score!==undefined?state.score+'/100':'—'}</strong></div><button id="reset" class="btn light">Reiniciar meu progresso</button></section>`;document.getElementById('reset').onclick=()=>{if(confirm('Tem certeza de que deseja apagar seu progresso?')){state={};save();render('progresso')}}}
+  document.addEventListener('click',e=>{const p=e.target.closest('[data-page]'),l=e.target.closest('[data-lesson]');if(p)go(p.dataset.page);if(l)go('aula-'+l.dataset.lesson)});window.addEventListener('popstate',e=>render(e.state?.page||location.hash.slice(1)||'inicio'));render(location.hash.slice(1)||'inicio');
+</script>
+</body>
+</html>
